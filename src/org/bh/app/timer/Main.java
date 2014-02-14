@@ -27,11 +27,11 @@ public class Main
 	 * @see #setDeveloperMode(boolean) 
 	 */
 	public static final String ARG_DEV = "-dev";
-	private static final Logger LOGGER = Logger.getLogger(Main.class.getCanonicalName());
-	private static boolean devMode = false;
 	public static final String APP_NAME = "Blue Husky's Timer 2";
 	public static final String APP_ABBR = new StringPP(APP_NAME).toAbbreviation(true)+"";
 	public static final String VERSION = "2.0.0\u03BB";
+	private static final Logger LOGGER = Logger.getLogger(Main.class.getCanonicalName());
+	private static boolean devMode = false;
 	
 	static
 	{
