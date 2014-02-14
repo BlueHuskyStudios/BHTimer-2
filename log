@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2014-02-14T16:41:50</date>
+  <millis>1392414110559</millis>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>CONFIG</level>
+  <class>org.bh.app.timer.Settings</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Settings successfully initialized to C:\Users\Kyli\AppData\Roaming\Blue Husky\Blue Husky's Timer 2\save.properties</message>
+</record>
+</log>
