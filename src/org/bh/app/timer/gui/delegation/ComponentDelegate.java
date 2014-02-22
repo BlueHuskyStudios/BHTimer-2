@@ -78,4 +78,12 @@ public class ComponentDelegate<T extends Component>
 	{
 		basis.setBounds(newBounds);
 	}
+	
+	/**
+	 * Calls the {@link Component#validate()} method of the basis
+	 */
+	public void validate()
+	{
+		basis.validate();
+	}
 }

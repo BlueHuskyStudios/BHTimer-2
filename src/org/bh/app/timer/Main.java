@@ -10,7 +10,7 @@ import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import org.bh.app.timer.gui.BHTimerManager;
+import org.bh.app.timer.gui.timer.CountUpTimerDelegate;
 import org.bh.app.timer.log.DialogHandler;
 
 /**
@@ -21,7 +21,7 @@ import org.bh.app.timer.log.DialogHandler;
  * @since 2013-08-08
  */
 public class Main
-{
+{private static final long APP_START = System.nanoTime();
 	/**
 	 * Represents the argument <CODE>{@value}</CODE>. By default, it activates developer mode. However, it can be followed by positive or negative keyword to forve developer mode on or off.
 	 * @see #setDeveloperMode(boolean) 
@@ -30,7 +30,6 @@ public class Main
 	public static final String APP_NAME = "Blue Husky's Timer 2";
 	public static final String APP_ABBR = new StringPP(APP_NAME).toAbbreviation(true)+"";
 	public static final String VERSION = "2.0.0\u03BB";
-	private static final Logger LOGGER = Logger.getLogger(Main.class.getCanonicalName());
 	private static boolean devMode = false;
 	
 	static
@@ -94,16 +93,19 @@ public class Main
 		parseArgs(args);
 		BHTimerManager bhTimer = new BHTimerManager();
 		bhTimer.setMainWindowVisible(true);
+		bhTimer.registerPlugin(new CountUpTimerDelegate());
+		long APP_STARTED = System.nanoTime();
+		System.out.println("Took " + ((APP_STARTED - APP_START) / 1_000_000_000d) + " seconds to start");
 	}
 
 	private static void parseArgs(CharSequence[] args)
 	{
-		for (int arg = 0; arg < args.length; arg++)
+		for (int argNum = 0; argNum < args.length; argNum++)
 		{
-			if (args[arg] != null && ARG_DEV.equalsIgnoreCase(args[arg].toString()))
+			if (args[argNum] != null && ARG_DEV.equalsIgnoreCase(args[argNum].toString()))
 			{
-				if (arg < args.length - 1 && Argument.DefaultArg.BOOLEAN.matches(args[++arg]))
-					setDeveloperMode(Argument.DefaultArg.POSITIVE.matches(args[arg]) ? true : !Argument.DefaultArg.NEGATIVE.matches(args[arg]));
+				if (argNum < args.length - 1 && Argument.DefaultArg.BOOLEAN.matches(args[++argNum]))
+					setDeveloperMode(Argument.DefaultArg.POSITIVE.matches(args[argNum]) ? true : !Argument.DefaultArg.NEGATIVE.matches(args[argNum]));
 			}
 		}
 	}
@@ -112,7 +114,7 @@ public class Main
 	{
 		devMode = b;
 		
-		LOGGER.setLevel(devMode ? Level.ALL : Level.WARNING);
-		LOGGER.log(Level.INFO, "{0}ctivated development mode", (b ? "A" : "Dea"));
+		Logger.getGlobal().setLevel(devMode ? Level.ALL : Level.INFO);
+		Logger.getGlobal().log(Level.INFO, (b ? "A" : "Dea") + "ctivated development mode");
 	}
 }

@@ -5,7 +5,8 @@ import bht.tools.util.save.StateSaverEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bh.app.timer.gui.BHTimerFrame;
-import org.bh.app.timer.gui.BHTimerManager;
+import org.bh.app.timer.BHTimerManager;
+import org.bh.app.timer.gui.timer.BHTimerPlugin;
 import org.bh.app.timer.util.SaveableRectangle;
 
 /**
@@ -58,5 +59,16 @@ public class BHTimerDelegate extends JFrameDelegate<BHTimerFrame>
 	public BHTimerManager getManager()
 	{
 		return manager;
+	}
+
+	public BHTimerDelegate registerPlugin(BHTimerPlugin newPlugin)
+	{
+		basis.registerPlugin(newPlugin);
+		return this;
+	}
+	
+	public BHTimerPlugin getCurrentTimerPlugin()
+	{
+		return basis.getCurrentTimerPlugin();
 	}
 }

@@ -2,6 +2,7 @@ package org.bh.app.timer.gui;
 
 import bht.tools.comps.BHMessagePanel;
 import bht.tools.comps.BHSelectableLabel;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.*;
 import java.awt.GridBagLayout;
@@ -19,6 +20,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import org.bh.app.timer.Main;
+import org.bh.app.timer.gui.timer.BHTimerPlugin;
+import org.bh.app.timer.gui.timer.BHTimerPluginPane;
+import org.bh.app.timer.gui.evt.TimerPluginAdapter;
 
 /**
  * BHTimerApplet, made for BH Timer 2 Try 5, is copyright Blue Husky Programming ©2014 GPLv3<HR/>
@@ -109,5 +113,20 @@ public class BHTimerApplet extends JApplet
 			add(notificationPanel, gbc);
 		}
 //</editor-fold>
+	}
+	public void registerPlugin(BHTimerPlugin newPlugin)
+	{
+		timerTabbedPane.addTab(newPlugin.getName()+"", newPlugin.asComponent());
+	}
+
+	public BHTimerPlugin getCurrentTimerPlugin()
+	{
+		Component selection = timerTabbedPane.getSelectedComponent();
+		return
+				selection instanceof BHTimerPlugin
+					? (BHTimerPlugin)selection
+					: selection instanceof BHTimerPluginPane
+						? ((BHTimerPluginPane)selection).asPlugin()
+						: null;
 	}
 }

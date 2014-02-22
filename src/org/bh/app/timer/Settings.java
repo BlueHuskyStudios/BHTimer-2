@@ -6,7 +6,7 @@ import bht.tools.util.save.StateSaver;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.bh.app.timer.gui.BHTimerManager.*;
+import static org.bh.app.timer.BHTimerManager.*;
 import static org.bh.app.timer.gui.delegation.MiniTimerDelegate.*;
 
 /**

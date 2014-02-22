@@ -1,5 +1,6 @@
 package org.bh.app.timer.gui;
 
+import org.bh.app.timer.BHTimerManager;
 import org.bh.app.timer.gui.delegation.MiniTimerDelegate;
 import org.bh.app.timer.gui.delegation.BHTimerDelegate;
 import java.awt.HeadlessException;
@@ -7,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import org.bh.app.timer.Main;
+import org.bh.app.timer.gui.timer.BHTimerPlugin;
 
 /**
  * BHTimerFrame, made for BH Timer 2 Try 5, is copyright Blue Husky Programming ©2014 GPLv3<HR/>
@@ -129,5 +131,16 @@ public class BHTimerFrame extends JFrame implements WindowListener
 	public BHTimerApplet getContent()
 	{
 		return content;
+	}
+	
+	public BHTimerFrame registerPlugin(BHTimerPlugin newPlugin)
+	{
+		content.registerPlugin(newPlugin);
+		return this;
+	}
+
+	public BHTimerPlugin getCurrentTimerPlugin()
+	{
+		return content.getCurrentTimerPlugin();
 	}
 }

@@ -1,9 +1,9 @@
 package org.bh.app.timer.gui;
 
-import java.awt.Dimension;
 import org.bh.app.timer.gui.delegation.MiniTimerDelegate;
 import javax.swing.JWindow;
 import org.bh.app.timer.gui.evt.MiniTimerListener;
+import org.bh.app.timer.gui.timer.BHTimerPlugin;
 
 /**
  * MiniTimerFrame, made for BH Timer 2 Try 5, is copyright Blue Husky Programming ©2014 GPLv3<HR/>
@@ -15,13 +15,14 @@ import org.bh.app.timer.gui.evt.MiniTimerListener;
 public class MiniTimerFrame extends JWindow
 {
 	private MiniTimerDelegate delegate;
-	private MiniTimerApplet content;
+	private final MiniTimerApplet CONTENT;
 	public MiniTimerFrame(MiniTimerDelegate initDelegate)
 	{
 		delegate = initDelegate;
-		content = new MiniTimerApplet();
-		setContentPane(content);
-		setSize(new Dimension(256, 128));
+		CONTENT = new MiniTimerApplet();
+		setContentPane(CONTENT);
+		/*setSize(new Dimension(256, 128));*/
+		pack();
 		setAlwaysOnTop(true);
 	}
 
@@ -37,7 +38,7 @@ public class MiniTimerFrame extends JWindow
 
 	public void addMiniTimerListener(MiniTimerListener newMiniTimerListener)
 	{
-		content.addMiniTimerListener(newMiniTimerListener);
+		CONTENT.addMiniTimerListener(newMiniTimerListener);
 	}
 	
 	
@@ -46,5 +47,22 @@ public class MiniTimerFrame extends JWindow
 	public String toString()
 	{
 		return "miniTimer";
+	}
+
+	@Override
+	public void validate()
+	{
+		super.validate();
+		CONTENT.validate();
+	}
+
+	public void setCurrentTimerPlugin(BHTimerPlugin newTimerPlugin)
+	{
+		CONTENT.setCurrentTimerPlugin(newTimerPlugin);
+	}
+
+	public BHTimerPlugin getCurrentTimerPlugin()
+	{
+		return CONTENT.getCurrentTimerPlugin();
 	}
 }
