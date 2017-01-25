@@ -11,11 +11,10 @@ import javax.swing.AbstractAction;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
-import javax.swing.border.AbstractBorder;
 import static org.bh.app.timer.gui.Colors.*;
-import org.bh.app.timer.gui.evt.MiniTimerEvent;
-import org.bh.app.timer.gui.evt.MiniTimerListener;
-import org.bh.app.timer.gui.timer.BHTimerPlugin;
+import org.bh.app.timer.evt.MiniTimerEvent;
+import org.bh.app.timer.evt.MiniTimerListener;
+import org.bh.app.timer.BHTimerPlugin;
 import org.bh.app.timer.util.Time;
 
 /**
@@ -70,7 +69,10 @@ public class MiniTimerApplet extends JApplet
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
+					if (getCurrentTimerPlugin().isPaused())
+						getCurrentTimerPlugin().resume();
 					getCurrentTimerPlugin().go();
+					validate();
 				}
 			});
 			gbc.gridx++;
@@ -92,6 +94,7 @@ public class MiniTimerApplet extends JApplet
 						getCurrentTimerPlugin().resume();
 					else
 						getCurrentTimerPlugin().pause();
+					validate();
 				}
 			});
 			gbc.gridx++;
@@ -112,6 +115,8 @@ public class MiniTimerApplet extends JApplet
 						getCurrentTimerPlugin().stop();
 					else
 						getCurrentTimerPlugin().reset();
+					getCurrentTimerPlugin().resume();
+					validate();
 				}
 			});
 			gbc.gridx++;
@@ -150,7 +155,15 @@ public class MiniTimerApplet extends JApplet
 	{
 		super.validate();
 		if (progressBar != null && timerPlugin != null)
-			progressBar.setString(Time.toString(timerPlugin.getCurrentTime(), Time.RES_DEFAULT));
+		{
+			long time = timerPlugin.getCurrentTime();
+			if (time > 0)
+				progressBar.setString(Time.toString(time, Time.RES_DEFAULT));
+			else
+				progressBar.setString("...");
+		}
+		else
+			progressBar.setString("Click the green button to start");
 	}
 
 	public BHTimerPlugin getCurrentTimerPlugin()

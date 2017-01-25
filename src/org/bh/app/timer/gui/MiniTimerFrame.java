@@ -1,9 +1,9 @@
 package org.bh.app.timer.gui;
 
-import org.bh.app.timer.gui.delegation.MiniTimerDelegate;
+import org.bh.app.timer.delegation.MiniTimerDelegate;
 import javax.swing.JWindow;
-import org.bh.app.timer.gui.evt.MiniTimerListener;
-import org.bh.app.timer.gui.timer.BHTimerPlugin;
+import org.bh.app.timer.evt.MiniTimerListener;
+import org.bh.app.timer.BHTimerPlugin;
 
 /**
  * MiniTimerFrame, made for BH Timer 2 Try 5, is copyright Blue Husky Programming ©2014 GPLv3<HR/>

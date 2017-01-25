@@ -1,5 +1,7 @@
 package org.bh.app.timer.gui.timer;
 
+import org.bh.app.timer.BHTimerPlugin;
+
 /**
  * BHTimerPluginPane, made for BH Timer 2 Try 5, is copyright Blue Husky Programming ©2014 GPLv3<HR/>
  * 

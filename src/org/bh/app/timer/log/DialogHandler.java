@@ -48,13 +48,13 @@ public class DialogHandler extends Handler
 		}
 		else if (record.getLevel().intValue() >= WARNING.intValue())
 		{
-			if (errorName == null) errorName = new StringPP("Warning");
+			if (errorName == null || errorName.isEmpty()) errorName = new StringPP("Warning");
 			
 			JOptionPane.showMessageDialog(null, record.getMessage(), errorName + " - " + appName, WARNING_MESSAGE);
 		}
 		else if (record.getLevel().intValue() >= INFO.intValue())
 		{
-			if (errorName == null) errorName = new StringPP("Info");
+			if (errorName == null || errorName.isEmpty()) errorName = new StringPP("Info");
 			
 			JOptionPane.showMessageDialog(null, record.getMessage(), errorName + " - " + appName, INFORMATION_MESSAGE);
 		}

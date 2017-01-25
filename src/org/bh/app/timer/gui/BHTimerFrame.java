@@ -1,14 +1,15 @@
 package org.bh.app.timer.gui;
 
 import org.bh.app.timer.BHTimerManager;
-import org.bh.app.timer.gui.delegation.MiniTimerDelegate;
-import org.bh.app.timer.gui.delegation.BHTimerDelegate;
+import org.bh.app.timer.delegation.MiniTimerDelegate;
+import org.bh.app.timer.delegation.BHTimerDelegate;
 import java.awt.HeadlessException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import org.bh.app.timer.Main;
-import org.bh.app.timer.gui.timer.BHTimerPlugin;
+import org.bh.app.timer.BHTimerPlugin;
+import org.bh.app.timer.evt.MenuActionListener;
 
 /**
  * BHTimerFrame, made for BH Timer 2 Try 5, is copyright Blue Husky Programming ©2014 GPLv3<HR/>
@@ -67,7 +68,6 @@ public class BHTimerFrame extends JFrame implements WindowListener
 				delegate.getManager().setDisplayState(BHTimerManager.STATE_ONLY_MINI_TIMER);
 				break;
 			case HIDE:
-			default:
 				setVisible(false);
 				break;
 		}
@@ -83,12 +83,11 @@ public class BHTimerFrame extends JFrame implements WindowListener
 				requestFocus();            // bring it back to the foreground
 				delegate.getManager().setDisplayState(BHTimerManager.STATE_ONLY_MINI_TIMER);
 				break;
-			case DO_NOTHING:
+			/*case DO_NOTHING:
 				setState(e.getOldState()); // cancel the minimization
 				requestFocus();            // bring it back to the foreground
-				break;
+				break;*/
 			case HIDE:
-			default:
 				setVisible(false);
 		}
 	}
@@ -104,12 +103,12 @@ public class BHTimerFrame extends JFrame implements WindowListener
 
 	private ON_CLOSE getCloseOperation()
 	{
-		if (!delegate.getManager().isMiniTimerActive())
+		if (delegate.getManager().isMiniTimerActive())
+			return ON_CLOSE.HIDE;
+		if ((getMiniTimerUseCase() & MiniTimerDelegate.USE_ON_CLOSE) == 0)
 			return ON_CLOSE.EXIT;
 		if ((getMiniTimerUseCase() & MiniTimerDelegate.USE_ON_CLOSE) != 0)
 			return ON_CLOSE.ACTIVATE_MINI_TIMER;
-		if (delegate.getManager().isMiniTimerActive())
-			return ON_CLOSE.HIDE;
 		return ON_CLOSE.DO_NOTHING;
 	}
 	
@@ -142,5 +141,10 @@ public class BHTimerFrame extends JFrame implements WindowListener
 	public BHTimerPlugin getCurrentTimerPlugin()
 	{
 		return content.getCurrentTimerPlugin();
+	}
+	
+	public void addMenuActionListener(MenuActionListener mal)
+	{
+		content.addMenuActionListener(mal);
 	}
 }

@@ -1,13 +1,16 @@
 package org.bh.app.timer;
 
+import bht.tools.fx.LookAndFeelChanger;
 import bht.tools.util.save.SaveableByte;
 import bht.tools.util.save.SaveableDouble;
+import bht.tools.util.save.SaveableLong;
+import bht.tools.util.save.SaveableString;
 import bht.tools.util.save.StateSaver;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.bh.app.timer.BHTimerManager.*;
-import static org.bh.app.timer.gui.delegation.MiniTimerDelegate.*;
+import static org.bh.app.timer.delegation.MiniTimerDelegate.*;
 
 /**
  * Settings, made for BH Timer 2 Try 5, is copyright Blue Husky Programming ©2014 GPLv3<HR/>
@@ -25,6 +28,10 @@ public class Settings extends StateSaver
 	public SaveableDouble
 		animationDuration,
 		animationFPS;
+	public SaveableString
+		lookAndFeel;
+	public SaveableLong
+		autoSaveInterval;
 
 	@SuppressWarnings("LoggerStringConcat")
 	public Settings()
@@ -32,11 +39,14 @@ public class Settings extends StateSaver
 		super(Main.APP_NAME, false);
 		try
 		{
-			addSaveable(miniTimerUseCase = new SaveableByte(USE_ON_CLOSE_OR_MINIMIZE, "minitimer.useCase"));
+			addSaveable(miniTimerUseCase  = new SaveableByte(USE_ON_CLOSE_OR_MINIMIZE, "minitimer.useCase"));
 			addSaveable(miniTimerPosition = new SaveableByte(POS_BOTTOM_RIGHT, "minitimer.position"));
-			addSaveable(displayState = new SaveableByte(STATE_ONLY_BIG_TIMER, "manager.displayState"));
+			addSaveable(displayState      = new SaveableByte(STATE_ONLY_BIG_TIMER, "manager.displayState"));
 			addSaveable(animationDuration = new SaveableDouble(1d, "animation.duration"));
-			addSaveable(animationFPS = new SaveableDouble(30d, "animation.fps"));
+			addSaveable(animationFPS      = new SaveableDouble(30d, "animation.fps"));
+			addSaveable(lookAndFeel       = new SaveableString(LookAndFeelChanger.getLookAndFeel().getClass().getName(), "lookAndFeel"));
+			addSaveable(autoSaveInterval  = new SaveableLong(10_000, "autosave.interval"));
+			
 			loadState();
 			super.putAllStates();
 			setShouldAutoSaveLoad(true);

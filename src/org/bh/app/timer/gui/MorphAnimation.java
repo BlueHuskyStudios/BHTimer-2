@@ -6,6 +6,7 @@ import bht.test.tools.fx.ani.AnimationEvent;
 import bht.test.tools.fx.ani.DefCompActionAnimation;
 import bht.tools.comps.BHCompUtilities;
 import bht.tools.util.dynamics.ProgressingValue;
+import bht.tools.util.math.Numbers;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.Window;
@@ -99,9 +100,9 @@ public class MorphAnimation extends DefCompActionAnimation
 				public void setOpacity(float opacity)
 				{
 					if (FADES_1)
-						((Window)comp1).setOpacity(1 - opacity);
+						((Window)comp1).setOpacity(Numbers.between(1 - opacity, 0, 1));
 					if (FADES_2)
-						((Window)comp2).setOpacity(opacity);
+						((Window)comp2).setOpacity(Numbers.between(opacity, 0, 1));
 				}
 
 				@Override

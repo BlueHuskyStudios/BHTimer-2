@@ -1,16 +1,19 @@
 package org.bh.app.timer;
 
+import bht.tools.Constants;
 import bht.tools.comps.BHCompUtilities;
 import bht.tools.fx.LookAndFeelChanger;
 import bht.tools.misc.Argument;
 import bht.tools.util.StringPP;
+import java.io.File;
+import java.io.FilePermission;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import org.bh.app.timer.gui.timer.CountUpTimerDelegate;
+import org.bh.app.timer.delegation.CountUpTimerDelegate;
 import org.bh.app.timer.log.DialogHandler;
 
 /**
@@ -30,6 +33,7 @@ public class Main
 	public static final String APP_NAME = "Blue Husky's Timer 2";
 	public static final String APP_ABBR = new StringPP(APP_NAME).toAbbreviation(true)+"";
 	public static final String VERSION = "2.0.0\u03BB";
+	public static BHTimerManager manager;
 	private static boolean devMode = false;
 	
 	static
@@ -37,6 +41,7 @@ public class Main
 		LookAndFeelChanger.setLookAndFeel(LookAndFeelChanger.SYSTEM);
 		Logger.getGlobal().setLevel(Level.ALL);
 		Logger.getGlobal().setFilter(new Filter(){@Override public boolean isLoggable(LogRecord record){return true;}});
+		//<editor-fold defaultstate="collapsed" desc="Console Handler">
 		{
 			ConsoleHandler consoleHandler = new ConsoleHandler();
 			consoleHandler.setFilter(new Filter()
@@ -49,6 +54,8 @@ public class Main
 			});
 			Logger.getGlobal().addHandler(consoleHandler);
 		}
+		//</editor-fold>
+		//<editor-fold defaultstate="collapsed" desc="Dialog Handler">
 		{
 			DialogHandler dialogHandler = new DialogHandler(APP_NAME);
 			dialogHandler.setFilter(new Filter()
@@ -60,9 +67,19 @@ public class Main
 			});
 			Logger.getGlobal().addHandler(dialogHandler);
 		}
+//</editor-fold>
+		//<editor-fold defaultstate="collapsed" desc="File Handler">
+		java.io.File logfile = null;
 		try
 		{
-			FileHandler fileHandler = new FileHandler("log");
+			logfile = new File(Constants.SANDBOX + APP_NAME + "\\log.xml");
+			java.io.FilePermission f = new FilePermission(logfile.getParent(), "read,write");
+			f.checkGuard(logfile);
+			logfile.setWritable(true);
+			System.out.println(logfile.canWrite());
+			logfile.getParentFile().mkdirs();
+			logfile.createNewFile();
+			FileHandler fileHandler = new FileHandler(logfile.getAbsolutePath());
 			fileHandler.setFilter(new Filter()
 			{
 				@Override
@@ -75,8 +92,9 @@ public class Main
 		}
 		catch (Throwable ex)
 		{
-			Logger.getGlobal().log(Level.SEVERE, "Could not initialize log file!", ex);
+			Logger.getGlobal().log(Level.WARNING, "Could not initialize log file to " + logfile, ex);
 		}
+		//</editor-fold>
 		
 		BHCompUtilities.setUsesOSMenuBar(true, APP_NAME);
 	}
@@ -91,9 +109,9 @@ public class Main
 	public static void main(String[] args)
 	{
 		parseArgs(args);
-		BHTimerManager bhTimer = new BHTimerManager();
-		bhTimer.setMainWindowVisible(true);
-		bhTimer.registerPlugin(new CountUpTimerDelegate());
+		manager = new BHTimerManager();
+		manager.setMainWindowVisible(true);
+		manager.registerPlugin(new CountUpTimerDelegate());
 		long APP_STARTED = System.nanoTime();
 		System.out.println("Took " + ((APP_STARTED - APP_START) / 1_000_000_000d) + " seconds to start");
 	}
@@ -110,11 +128,22 @@ public class Main
 		}
 	}
 
+@SuppressWarnings("LoggerStringConcat")
 	public static void setDeveloperMode(boolean b)
 	{
 		devMode = b;
 		
 		Logger.getGlobal().setLevel(devMode ? Level.ALL : Level.INFO);
 		Logger.getGlobal().log(Level.INFO, (b ? "A" : "Dea") + "ctivated development mode");
+		
+		if (devMode)
+		{
+			System.setProperty("java.io.tmpdir", "/");
+		}
+	}
+	
+	public static BHTimerManager getManager()
+	{
+		return manager;
 	}
 }

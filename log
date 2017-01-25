@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2014-02-21T14:10:56</date>
-  <millis>1393009856704</millis>
+  <date>2014-03-03T20:51:38</date>
+  <millis>1393897898580</millis>
   <sequence>0</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -13,8 +13,8 @@
   <message>Activated development mode</message>
 </record>
 <record>
-  <date>2014-02-21T14:10:57</date>
-  <millis>1393009857963</millis>
+  <date>2014-03-03T20:51:40</date>
+  <millis>1393897900308</millis>
   <sequence>1</sequence>
   <logger>global</logger>
   <level>CONFIG</level>
@@ -23,3 +23,15 @@
   <thread>1</thread>
   <message>Settings successfully initialized to C:\Users\Kyli Rouge\AppData\Roaming\Blue Husky\Blue Husky's Timer 2\save.properties</message>
 </record>
+<record>
+  <date>2014-03-03T20:51:40</date>
+  <millis>1393897900333</millis>
+  <sequence>2</sequence>
+  <logger>global</logger>
+  <level>CONFIG</level>
+  <class>org.bh.app.timer.Language</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>Initialized language save state to C:\Users\Kyli Rouge\AppData\Roaming\Blue Husky\Blue Husky's Timer 2\language.properties</message>
+</record>
+</log>

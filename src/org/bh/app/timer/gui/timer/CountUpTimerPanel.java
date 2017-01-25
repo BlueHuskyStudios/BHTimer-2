@@ -1,5 +1,6 @@
 package org.bh.app.timer.gui.timer;
 
+import org.bh.app.timer.BHTimerPlugin;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -36,3 +37,4 @@ public class CountUpTimerPanel extends CountTimerPanel implements BHTimerPluginP
 		return PARENT;
 	}
 }
+
